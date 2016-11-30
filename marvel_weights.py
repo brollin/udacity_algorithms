@@ -34,18 +34,17 @@ for char1 in chars:
                  make_link(charG, char1, char2)
 
 # Remove any chars that are not in the charG graph
-for i, char in enumerate(chars):
-    if char not in charG:
-        del chars[i]
+chars = charG.keys()
 
-weighted_book_chars = {}
-for char in chars:
-    for char2 in charG[char]:
-        if char2 not in weighted_chars:
-            charG[char][char2] += 1
-            charG[char2][char] += 1
-    weighted_chars.append(char)
-
+# Go through each book and add a connection to the charG connection
+# strength graph for each pair of characters
+for book in books:
+    chars_to_pair = marvelG[book].keys()
+    for i, char1 in enumerate(chars_to_pair):
+        if i < len(chars_to_pair) - 1:
+            for j, char2 in enumerate(chars_to_pair[i+1:]):
+                charG[char1][char2] += 1
+                charG[char2][char1] += 1
 
 # Capture strength of each connection in list:
 captured_conns = {}
